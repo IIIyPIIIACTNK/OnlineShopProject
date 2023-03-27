@@ -1,0 +1,56 @@
+﻿<Window x:Class="OnlineShopProject.ClientsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OnlineShopProject"
+        mc:Ignorable="d"
+        Title="ClientsWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!--<ColumnDefinition Width="1.0*"></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>-->
+        </Grid.ColumnDefinitions>
+        <DataGrid x:Name="ClientsDataGrid"
+                  IsSynchronizedWithCurrentItem="True"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="False"
+                  ItemsSource="{Binding Path =ClientsDBManager.ClientsDBDataTable.DefaultView}" Background="AntiqueWhite" 
+                  RowBackground="AntiqueWhite"
+                  SelectedItem="{Binding SelectedClient}"
+                  HorizontalGridLinesBrush="#FF080854"
+                  VerticalGridLinesBrush="#FF080854" Margin="0,0,67,0"
+                  BorderBrush="Transparent"   
+            >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding id}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Имя" Binding="{Binding name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Отчество" Binding="{Binding middleName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Фамилия" Binding="{Binding lastName}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Телефон" Binding="{Binding phoneNumber}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Эл.Почта" Binding="{Binding eMail}"></DataGridTextColumn>
+            </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Click="AddMenuClick" />
+                    <MenuItem Header="Удалить" Command="{Binding DeleteClient}"
+                              CommandParameter="{Binding ElementName=ClientsDataGrid, Path=SelectedItem}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+
+
+        <Border>
+            <Button Width="20" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right"
+                    Margin="20"></Button>
+        </Border>
+
+        <Grid HorizontalAlignment="Right" Width="100" Background="BlanchedAlmond">
+            <Button Height="20" Width="20" HorizontalAlignment="Left"
+                    VerticalAlignment="Top" Margin="10"></Button>
+            <Button Width="70" Height="20" VerticalAlignment="Top"
+                    Margin="5,40" Content="Добавить"></Button>
+        </Grid>
+    </Grid>
+</Window>
