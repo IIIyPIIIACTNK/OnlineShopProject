@@ -37,9 +37,10 @@ namespace OnlineShopProject
         /// </summary>
         public string OSClientsConState { get { return connectionToOSClients.State.ToString(); } }
         /// <summary>
-        /// Ссылка на класс-менеджер базаой данных продаж
+        /// Ссылка на класс-менеджер базой данных продаж
         /// </summary>
         public SalesDBManager SalesDBManager { get { return salesDBManager; } }
+        public ClientsDBManager ClientsDBManager { get { return clientsDBManager; } }
 
         public DataRowView SelectedClient { get;set; }
         public string ClientName { get; set; }
@@ -85,7 +86,6 @@ namespace OnlineShopProject
                 }));
             }
         }
-        public ClientsDBManager ClientsDBManager { get { return clientsDBManager; } }
         #endregion
 
         #endregion

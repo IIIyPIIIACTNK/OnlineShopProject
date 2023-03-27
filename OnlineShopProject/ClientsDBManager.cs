@@ -71,10 +71,6 @@ ORDER BY Clients.id";
             }
 
             #region delete
-            request = @"DELETE FROM Clients WHERE lastName = @lastName";
-
-            dataAdapter.DeleteCommand = new SqlCommand(request, clientsDBconnection);
-            dataAdapter.DeleteCommand.Parameters.Add("@lastName", SqlDbType.Int, 4, "lastName");
             #endregion
 
             #region insert
@@ -95,8 +91,13 @@ SET @id = @@IDENTITY;";
             dataAdapter.InsertCommand.Parameters.Add("@eMail", SqlDbType.NVarChar, 50, "eMail");
 
             #endregion
+            request = @"DELETE FROM Clients WHERE id = @id";
+
+            dataAdapter.DeleteCommand = new SqlCommand(request, clientsDBconnection);
+            dataAdapter.DeleteCommand.Parameters.Add("@id", SqlDbType.Int, 4, "id");
 
             dataAdapter.Update(dt);
+            MessageBox.Show(dataAdapter.DeleteCommand.CommandText);
         }
 
         public void UpdateView()
