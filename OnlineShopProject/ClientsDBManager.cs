@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Azure.Core;
 using Microsoft.Data.SqlClient;
 
 namespace OnlineShopProject
@@ -24,6 +25,8 @@ namespace OnlineShopProject
             InitialCatalog = "OSClients",
             IntegratedSecurity = true
         };
+
+        Dictionary<string,string> requests = new Dictionary<string,string>();   
         #endregion
 
         #region Properties
@@ -34,6 +37,8 @@ namespace OnlineShopProject
                 public string ClientsDBConState { get { return clientsDBconnection.State.ToString(); } }
         #endregion
 
+
+        public Dictionary<string,string> Requests { get { return requests; } }
         #endregion
 
         public ClientsDBManager()
@@ -45,15 +50,6 @@ namespace OnlineShopProject
 
         private void SetStartDataTableView()
         {
-//            var request = @"SELECT 
-//Clients.id,
-//Clients.lastName,
-//Clients.[name],
-//Clients.middleName,
-//Clients.phoneNumber,
-//Clients.eMail
-//FROM Clients
-//ORDER BY Clients.id";
             var request = @"SELECT 
 *
 FROM Clients
@@ -70,12 +66,21 @@ ORDER BY Clients.id";
                 MessageBox.Show($"{ex}");
             }
 
-            #region delete
-            #endregion
+        }
 
-            #region insert
+        public void DeleteClientCommand()
+        {
+            var request = @"DELETE FROM Clients WHERE id = @id";
 
-            request = @"INSERT INTO Clients (lastName,[name],middleName,phoneNumber,eMail) 
+            dataAdapter.DeleteCommand = new SqlCommand(request, clientsDBconnection);
+            dataAdapter.DeleteCommand.Parameters.Add("@id", SqlDbType.Int, 4, "id");
+
+            dataAdapter.Update(dt);
+        }
+
+        public void InsertClientCommand() 
+        {
+            var request = @"INSERT INTO Clients (lastName,[name],middleName,phoneNumber,eMail) 
 VALUES (@lastName, @name,@middleName,@phoneNumber,@eMail);
 SET @id = @@IDENTITY;";
 
@@ -90,18 +95,27 @@ SET @id = @@IDENTITY;";
             dataAdapter.InsertCommand.Parameters.Add("@phoneNumber", SqlDbType.NVarChar, 50, "phoneNumber");
             dataAdapter.InsertCommand.Parameters.Add("@eMail", SqlDbType.NVarChar, 50, "eMail");
 
-            #endregion
-            request = @"DELETE FROM Clients WHERE id = @id";
-
-            dataAdapter.DeleteCommand = new SqlCommand(request, clientsDBconnection);
-            dataAdapter.DeleteCommand.Parameters.Add("@id", SqlDbType.Int, 4, "id");
-
             dataAdapter.Update(dt);
-            MessageBox.Show(dataAdapter.DeleteCommand.CommandText);
         }
 
-        public void UpdateView()
+        public void UpdateClientCommand()
         {
+            var request = @"UPDATE Clients 
+SET lastName = @lastName,
+    name = @name,
+    middleName = @middleName,
+    phoneNumber = @phoneNumber,
+    eMail = @eMail
+WHERE id = @id";
+
+            dataAdapter.UpdateCommand = new SqlCommand(request, clientsDBconnection);
+            dataAdapter.UpdateCommand.Parameters.Add("@id", SqlDbType.Int, 4, "id");
+            dataAdapter.UpdateCommand.Parameters.Add("@lastName", SqlDbType.NVarChar, 50, "lastName");
+            dataAdapter.UpdateCommand.Parameters.Add("@name", SqlDbType.NVarChar, 50, "name");
+            dataAdapter.UpdateCommand.Parameters.Add("@middleName", SqlDbType.NVarChar, 50, "middleName");
+            dataAdapter.UpdateCommand.Parameters.Add("@phoneNumber", SqlDbType.NVarChar, 50, "phoneNumber");
+            dataAdapter.UpdateCommand.Parameters.Add("@eMail", SqlDbType.NVarChar, 50, "eMail");
+
             dataAdapter.Update(dt);
         }
     }

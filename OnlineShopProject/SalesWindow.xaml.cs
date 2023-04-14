@@ -19,9 +19,20 @@ namespace OnlineShopProject
     /// </summary>
     public partial class SalesWindow : Window
     {
+        ViewModel vm = new ViewModel();
         public SalesWindow()
         {
             InitializeComponent();
+            DataContext= vm;
+        }
+        
+
+        private void OpenAddPurchaseWindow(object sender, RoutedEventArgs e)
+        {
+            AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow();
+            addPurchaseWindow.Owner= this;
+            addPurchaseWindow.DataContext = DataContext;
+            addPurchaseWindow.Show();
         }
     }
 }

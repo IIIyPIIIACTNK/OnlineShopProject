@@ -23,7 +23,7 @@ namespace OnlineShopProject
         public ClientsWindow()
         {
             InitializeComponent();
-            DataContext= vm;
+            //DataContext= vm;
         }
 
         private void AddMenuClick(object sender, RoutedEventArgs e)
@@ -31,6 +31,22 @@ namespace OnlineShopProject
             AddClientWindow addClientWindow = new AddClientWindow();
             addClientWindow.DataContext = vm;
             addClientWindow.Show();
+        }
+
+        private void SalesGridShow(object sender, RoutedEventArgs e)
+        {
+            SalesGrid.Visibility= Visibility.Visible;
+        }
+
+        private void SalesGridCloseClick(object sender, RoutedEventArgs e)
+        {
+            SalesGrid.Visibility = Visibility.Collapsed;
+
+        }
+
+        private void MainGridSelectionChaged(object sender, SelectionChangedEventArgs e)
+        {
+           // SalesGrid.Visibility = Visibility.Collapsed;
         }
     }
 }

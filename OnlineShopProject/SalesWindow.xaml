@@ -14,8 +14,9 @@
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   IsReadOnly="False"
-                  DataContext="{Binding SalesDBManager}"
-                  ItemsSource="{Binding SalesDBView}" Background="AntiqueWhite" 
+                  ItemsSource="{Binding Path=SalesDBManager.SalesDBDataTable.DefaultView}" 
+                  SelectedItem="{Binding SelectedElement}"
+                  Background="AntiqueWhite" 
                   RowBackground="AntiqueWhite"
                   HorizontalGridLinesBrush="#FF080854"
                   VerticalGridLinesBrush="#FF080854"
@@ -27,6 +28,13 @@
                 <DataGridTextColumn Header="Наименование" Binding="{Binding itemDescription}"/>
                 <DataGridTextColumn Header="eMail покупателя" Binding="{Binding eMail}"/>
             </DataGrid.Columns>
+
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Добавить" Click="OpenAddPurchaseWindow" />
+                    <MenuItem Header="Удалить" Command="{Binding DeleteCommand}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
         </DataGrid>
     </Grid>
 </Window>

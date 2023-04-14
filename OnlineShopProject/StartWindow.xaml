@@ -1,0 +1,27 @@
+﻿<Window x:Class="OnlineShopProject.StartWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OnlineShopProject"
+        mc:Ignorable="d"
+        Title="StartWindow" ResizeMode="NoResize" Height="200" Width="200"
+        WindowStyle="None" WindowStartupLocation="CenterScreen"
+        Background="AntiqueWhite">
+    <Window.Resources>
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="5"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.25*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button  Width="50" Height="20" Grid.Row="1" VerticalAlignment="Center" 
+                  Click="CloseAppClick">Выход</Button>
+        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,0,0,40">Клиенты</Button>
+        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,10,0,0">Продажи</Button>
+        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,60,0,0">Статус</Button>
+    </Grid>
+</Window>

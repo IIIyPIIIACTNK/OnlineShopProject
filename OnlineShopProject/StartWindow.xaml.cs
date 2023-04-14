@@ -15,23 +15,18 @@ using System.Windows.Shapes;
 namespace OnlineShopProject
 {
     /// <summary>
-    /// Логика взаимодействия для AddClientWindow.xaml
+    /// Логика взаимодействия для StartWindow.xaml
     /// </summary>
-    public partial class AddClientWindow : Window
+    public partial class StartWindow : Window
     {
-        public AddClientWindow()
+        public StartWindow()
         {
             InitializeComponent();
         }
 
-        private void CloseClick(object sender, RoutedEventArgs e)
+        private void CloseAppClick(object sender, RoutedEventArgs e)
         {
-            this.Close();
-        }
-
-        private void AddButtonClick(object sender, RoutedEventArgs e)
-        {
-            this.Close();
+            Application.Current.Shutdown();
         }
     }
 }

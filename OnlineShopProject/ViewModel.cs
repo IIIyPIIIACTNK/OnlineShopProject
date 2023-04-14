@@ -18,38 +18,50 @@ namespace OnlineShopProject
     {
         #region Fields
 
-        SqlConnection connectionToOSClients = new SqlConnection();
         SalesDBManager salesDBManager = new SalesDBManager();
         ClientsDBManager clientsDBManager = new ClientsDBManager();
         public DataTable dt = new DataTable();
-
+        
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        RelayCommand addClinet;
-        RelayCommand deleteClient;
+        RelayCommand? addClinet;
+        RelayCommand? deleteClient;
+        RelayCommand? removeClinet;
+        RelayCommand? addPurachase;
+        RelayCommand? deletePurchase;
+        RelayCommand? setClientsPurchaseDT;
         #endregion
 
         #region Properties
 
         #region View
         /// <summary>
-        /// Состояние подключения к OSClients базе данных для View
-        /// </summary>
-        public string OSClientsConState { get { return connectionToOSClients.State.ToString(); } }
-        /// <summary>
         /// Ссылка на класс-менеджер базой данных продаж
         /// </summary>
         public SalesDBManager SalesDBManager { get { return salesDBManager; } }
-        public ClientsDBManager ClientsDBManager { get { return clientsDBManager; } }
-
-        public DataRowView SelectedClient { get;set; }
+        public ClientsDBManager _ClientsDBManager { get { return clientsDBManager; } }
+        public DataTable clientsPurchaseDT = new DataTable();
+        public DataTable ClientsPurchaseDT  { get{ return clientsPurchaseDT; } set { clientsPurchaseDT = value; OnPropertyChanged(); } }
+        #region ClientsDataFromView
+        public DataRowView SelectedElement { get;set; }
         public string ClientName { get; set; }
         public string ClientLastName { get; set; }
         public string ClientMiddleName { get; set; }
         public string ClientPhoneNumber { get; set; }
         public string ClientEMail { get; set; }
 
+        #endregion
 
+        #region SalesDataFromView
+
+        public string ItemCode { get; set; }
+        public string ItemDescription { get; set; } 
+
+        #endregion
+
+        #endregion
+
+        #region Commands
         public RelayCommand AddClient
         {
             get
@@ -64,7 +76,7 @@ namespace OnlineShopProject
                         dataRow["phoneNumber"] = ClientPhoneNumber;
                         dataRow["eMail"] = ClientEMail;
                         clientsDBManager.ClientsDBDataTable.Rows.Add(dataRow);
-                        ClientsDBManager.UpdateView();
+                        _ClientsDBManager.InsertClientCommand();
                     }));
             }
         }
@@ -75,15 +87,68 @@ namespace OnlineShopProject
                 return deleteClient ?? 
                     (deleteClient = new RelayCommand(o =>
                 {
-                    string g = "";
-                    foreach(var item in SelectedClient.Row.ItemArray)
-                    {
-                        g += item as string;
-                    }
-                    MessageBox.Show(g);
-                    SelectedClient.Row.Delete();
-                    ClientsDBManager.UpdateView();
+                    SelectedElement.Row.Delete();
+                    _ClientsDBManager.DeleteClientCommand();
                 }));
+            }
+        }
+        public RelayCommand EndEditClient
+        {
+            get
+            {
+                return removeClinet ?? (removeClinet = new RelayCommand(o =>
+                {
+                    
+                    clientsDBManager.UpdateClientCommand();
+                }));
+            }
+        }
+
+        public RelayCommand AddPurachase
+        {
+            get
+            {
+                return addPurachase ?? (addPurachase= new RelayCommand(o =>
+                {
+                    salesDBManager.InsertPurchaseCommand(ClientEMail, 
+                        salesDBManager.ItemsIdNamesDict.FirstOrDefault(x => x.Value == ItemDescription).Key.ToString(),
+                        ItemCode);
+                }));
+            }
+        }
+
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+                return deletePurchase ?? (deletePurchase =
+                    new RelayCommand(o =>
+                    {
+                        SelectedElement.Row.Delete();
+                        salesDBManager.DeletePurchaseCommand();
+                    }));
+            }
+        }
+
+        public RelayCommand SetClientsPurchaseDT
+        {
+            get
+            {
+                return setClientsPurchaseDT ??= new RelayCommand(o =>
+                {
+                    try
+                    {
+                        Debug.WriteLine($"--- {SelectedElement.Row.ItemArray[5]} ---");
+                        ClientsPurchaseDT = salesDBManager.SelectClientsPurchase(SelectedElement.Row.ItemArray[5].ToString());
+                        ClientsPurchaseDT.EndInit();
+                        
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex);
+                    }
+
+                });
             }
         }
         #endregion
