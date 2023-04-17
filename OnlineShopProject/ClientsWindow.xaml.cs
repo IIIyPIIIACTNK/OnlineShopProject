@@ -19,17 +19,16 @@ namespace OnlineShopProject
     /// </summary>
     public partial class ClientsWindow : Window
     {
-        ViewModel vm = new ViewModel();
         public ClientsWindow()
         {
             InitializeComponent();
-            //DataContext= vm;
         }
 
         private void AddMenuClick(object sender, RoutedEventArgs e)
         {
             AddClientWindow addClientWindow = new AddClientWindow();
-            addClientWindow.DataContext = vm;
+            addClientWindow.DataContext = DataContext;
+            addClientWindow.Owner= this;
             addClientWindow.Show();
         }
 
@@ -46,7 +45,10 @@ namespace OnlineShopProject
 
         private void MainGridSelectionChaged(object sender, SelectionChangedEventArgs e)
         {
-           // SalesGrid.Visibility = Visibility.Collapsed;
+            if(SalesGrid != null) 
+            {
+                 SalesGrid.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

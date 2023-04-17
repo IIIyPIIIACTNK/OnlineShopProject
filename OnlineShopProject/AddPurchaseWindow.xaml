@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:OnlineShopProject"
         mc:Ignorable="d"
         Title="AddPurchaseWindow" ResizeMode="NoResize" Height="200" Width="300"
-        Background="AntiqueWhite" WindowStyle="None" 
-        WindowStartupLocation="CenterOwner" BorderBrush="Black" BorderThickness="1">
+        Background="BlanchedAlmond" WindowStyle="None" 
+        WindowStartupLocation="CenterOwner" BorderBrush="Transparent" >
+    <Window.Resources>
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>

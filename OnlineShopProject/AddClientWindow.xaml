@@ -5,8 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnlineShopProject"
         mc:Ignorable="d"
-        Title="AddClientWindow"  ResizeMode="NoResize" Height="250" Width="300">
+        Title="AddClientWindow"  ResizeMode="NoResize" Height="250" Width="300"
+        WindowStartupLocation="CenterOwner" WindowStyle="None"
+        Background="AntiqueWhite" BorderThickness="1">
     <Window.Resources>
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="5"/>
+        </Style>
+        
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -22,22 +28,35 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <TextBlock>Имя</TextBlock>
-        <TextBlock Grid.Row="1">фамилия</TextBlock>
-        <TextBlock Grid.Row="2">Отчество</TextBlock>
-        <TextBlock Grid.Row="3">Номер телефона</TextBlock>
-        <TextBlock Grid.Row="4">Электронная Почта</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Имя</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">Фамилия</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2">Отчество</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">Номер телефона</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4">Электронная Почта</TextBlock>
 
-        <TextBox x:Name="clientsName" Grid.Column="1" Grid.Row="0" Text="{Binding ClientName, Mode=OneWayToSource}"/>
-        <TextBox x:Name="clientsLastName"  Grid.Column="1" Grid.Row="1" Text="{Binding ClientLastName, Mode=OneWayToSource}"/>
-        <TextBox x:Name="clientsMiddleName"  Grid.Column="1" Grid.Row="2" Text="{Binding ClientMiddleName, Mode=OneWayToSource}"/>
-        <TextBox x:Name="clientsPhoneNumber"  Grid.Column="1" Grid.Row="3" Text="{Binding ClientPhoneNumber, Mode=OneWayToSource}"/>
-        <TextBox x:Name="clientsEMail"  Grid.Column="1" Grid.Row="4" Text="{Binding ClientEMail, Mode=OneWayToSource}"/>
+        <TextBox x:Name="clientsName"  Grid.Column="1" Grid.Row="0" 
+                 Text="{Binding ClientName, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsLastName"  Grid.Column="1" Grid.Row="1" 
+                 Text="{Binding ClientLastName, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsMiddleName"  Grid.Column="1" Grid.Row="2" 
+                 Text="{Binding ClientMiddleName, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsPhoneNumber"  Grid.Column="1" Grid.Row="3" 
+                 Text="{Binding ClientPhoneNumber, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsEMail"  Grid.Column="1" Grid.Row="4" 
+                 Text="{Binding ClientEMail, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
 
-        <Button Grid.Column="0" Grid.Row="5" Command="{Binding AddClient}" Click="AddButtonClick" >
+        <Button Grid.Column="0" Grid.Row="5" Command="{Binding AddClient}" 
+                Click="AddButtonClick" 
+                Width="130" Height="20">
             Добавить
         </Button>
-        <Button Grid.Column="1" Grid.Row="5" Click="CloseClick" >Закрыть</Button>
+        <Button Grid.Column="1" Grid.Row="5" Click="CloseClick" 
+                Width="130" Height="20">Закрыть</Button>
 
     </Grid>
 </Window>

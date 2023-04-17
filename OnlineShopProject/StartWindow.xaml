@@ -20,8 +20,9 @@
         </Grid.RowDefinitions>
         <Button  Width="50" Height="20" Grid.Row="1" VerticalAlignment="Center" 
                   Click="CloseAppClick">Выход</Button>
-        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,0,0,40">Клиенты</Button>
-        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,10,0,0">Продажи</Button>
-        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,60,0,0">Статус</Button>
+        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,0,0,40"
+                Click="OpenClientsClick">Клиенты</Button>
+        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,10,0,0" Click="OpenSalesClick">Продажи</Button>
+        <Button Width="100" Height="20" VerticalAlignment="Center" Margin="0,60,0,0" Click="OpenStatusWindow">Статус</Button>
     </Grid>
 </Window>

@@ -19,6 +19,7 @@ namespace OnlineShopProject
     /// </summary>
     public partial class StartWindow : Window
     {
+        ViewModel vm = new ViewModel();
         public StartWindow()
         {
             InitializeComponent();
@@ -27,6 +28,29 @@ namespace OnlineShopProject
         private void CloseAppClick(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        private void OpenClientsClick(object sender, RoutedEventArgs e)
+        {
+            ClientsWindow cw = new ClientsWindow();
+            cw.DataContext= vm;
+            cw.Show();
+            Close();
+        }
+
+        private void OpenSalesClick(object sender, RoutedEventArgs e)
+        {
+            SalesWindow sw = new SalesWindow();
+            sw.DataContext= vm;
+            sw.Show();
+            Close();
+        }
+
+        private void OpenStatusWindow(object sender, RoutedEventArgs e)
+        {
+            StatusWindow sw = new StatusWindow();   
+            sw.DataContext= vm;
+            sw.Show();
         }
     }
 }

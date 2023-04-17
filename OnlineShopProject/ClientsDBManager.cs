@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -11,7 +13,7 @@ using Microsoft.Data.SqlClient;
 
 namespace OnlineShopProject
 {
-    public class ClientsDBManager
+    public class ClientsDBManager : INotifyPropertyChanged
     {
 
         #region Fields
@@ -26,19 +28,17 @@ namespace OnlineShopProject
             IntegratedSecurity = true
         };
 
-        Dictionary<string,string> requests = new Dictionary<string,string>();   
+        public event PropertyChangedEventHandler? PropertyChanged;
         #endregion
 
         #region Properties
 
-            #region View
-                public DataTable ClientsDBDataTable { get { return dt; } set { dt = value; } }
+        #region View
+            public DataTable ClientsDBDataTable { get { return dt; } set { dt = value; } }
 
-                public string ClientsDBConState { get { return clientsDBconnection.State.ToString(); } }
+                public string ClientsDBConState { get { return clientsDBconnection.State.ToString(); } set { OnPropertyChanged(); } }
         #endregion
 
-
-        public Dictionary<string,string> Requests { get { return requests; } }
         #endregion
 
         public ClientsDBManager()
@@ -84,7 +84,6 @@ ORDER BY Clients.id";
 VALUES (@lastName, @name,@middleName,@phoneNumber,@eMail);
 SET @id = @@IDENTITY;";
 
-            dataAdapter = new SqlDataAdapter();
 
             dataAdapter.InsertCommand = new SqlCommand(request, clientsDBconnection);
 
@@ -118,5 +117,12 @@ WHERE id = @id";
 
             dataAdapter.Update(dt);
         }
+
+        void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
     }
+
 }

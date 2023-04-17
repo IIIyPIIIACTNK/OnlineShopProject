@@ -20,4 +20,8 @@
     <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MSAccessDB\" />
+  </ItemGroup>
+
 </Project>

@@ -20,7 +20,6 @@ namespace OnlineShopProject
 
         SalesDBManager salesDBManager = new SalesDBManager();
         ClientsDBManager clientsDBManager = new ClientsDBManager();
-        public DataTable dt = new DataTable();
         
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -40,9 +39,18 @@ namespace OnlineShopProject
         /// </summary>
         public SalesDBManager SalesDBManager { get { return salesDBManager; } }
         public ClientsDBManager _ClientsDBManager { get { return clientsDBManager; } }
+        /// <summary>
+        /// Таблица покупок отдельного клиенты
+        /// </summary>
         public DataTable clientsPurchaseDT = new DataTable();
         public DataTable ClientsPurchaseDT  { get{ return clientsPurchaseDT; } set { clientsPurchaseDT = value; OnPropertyChanged(); } }
+       
         #region ClientsDataFromView
+        //NB! Научится использовать мульти привязку в XAML для исключения множества свойств привязки
+
+        /// <summary>
+        /// Выбранный элемент из таблицы (Как для таблицы клиентов так и для таблицы продаж)
+        /// </summary>
         public DataRowView SelectedElement { get;set; }
         public string ClientName { get; set; }
         public string ClientLastName { get; set; }
@@ -53,6 +61,7 @@ namespace OnlineShopProject
         #endregion
 
         #region SalesDataFromView
+        //NB! Научится использовать мульти привязку в XAML для исключения множества свойств привязки
 
         public string ItemCode { get; set; }
         public string ItemDescription { get; set; } 
@@ -69,14 +78,21 @@ namespace OnlineShopProject
                 return addClinet ??
                     (addClinet = new RelayCommand(o =>
                     {
-                        DataRow dataRow = clientsDBManager.ClientsDBDataTable.NewRow();
-                        dataRow["lastName"] = ClientLastName;
-                        dataRow["name"] = ClientName;
-                        dataRow["middleName"] = ClientMiddleName;
-                        dataRow["phoneNumber"] = ClientPhoneNumber;
-                        dataRow["eMail"] = ClientEMail;
-                        clientsDBManager.ClientsDBDataTable.Rows.Add(dataRow);
-                        _ClientsDBManager.InsertClientCommand();
+                        try
+                        {
+                            DataRow dataRow = clientsDBManager.ClientsDBDataTable.NewRow();
+                            dataRow["lastName"] = ClientLastName;
+                            dataRow["name"] = ClientName;
+                            dataRow["middleName"] = ClientMiddleName;
+                            dataRow["phoneNumber"] = ClientPhoneNumber;
+                            dataRow["eMail"] = ClientEMail;
+                            clientsDBManager.ClientsDBDataTable.Rows.Add(dataRow);
+                            _ClientsDBManager.InsertClientCommand();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"--- Ошибка : {ex.Message} ---");
+                        }
                     }));
             }
         }
@@ -87,8 +103,15 @@ namespace OnlineShopProject
                 return deleteClient ?? 
                     (deleteClient = new RelayCommand(o =>
                 {
-                    SelectedElement.Row.Delete();
-                    _ClientsDBManager.DeleteClientCommand();
+                    try
+                    {
+                        SelectedElement.Row.Delete();
+                        _ClientsDBManager.DeleteClientCommand();
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                    }
                 }));
             }
         }
@@ -98,25 +121,36 @@ namespace OnlineShopProject
             {
                 return removeClinet ?? (removeClinet = new RelayCommand(o =>
                 {
-                    
-                    clientsDBManager.UpdateClientCommand();
+                    try
+                    {
+                        clientsDBManager.UpdateClientCommand();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                    }
                 }));
             }
         }
-
         public RelayCommand AddPurachase
         {
             get
             {
                 return addPurachase ?? (addPurachase= new RelayCommand(o =>
                 {
-                    salesDBManager.InsertPurchaseCommand(ClientEMail, 
-                        salesDBManager.ItemsIdNamesDict.FirstOrDefault(x => x.Value == ItemDescription).Key.ToString(),
-                        ItemCode);
+                    try
+                    {
+                        salesDBManager.InsertPurchaseCommand(ClientEMail,
+                         salesDBManager.ItemsIdNamesDict.FirstOrDefault(x => x.Value == ItemDescription).Key.ToString(),
+                         ItemCode);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                    }
                 }));
             }
         }
-
         public RelayCommand DeleteCommand
         {
             get
@@ -124,12 +158,22 @@ namespace OnlineShopProject
                 return deletePurchase ?? (deletePurchase =
                     new RelayCommand(o =>
                     {
-                        SelectedElement.Row.Delete();
-                        salesDBManager.DeletePurchaseCommand();
+                        try
+                        {
+                            SelectedElement.Row.Delete();
+                            salesDBManager.DeletePurchaseCommand();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                        }
                     }));
             }
         }
-
+        /// <summary>
+        /// Вызов комманды для формирования таблицы покупок определенного клента по eMail. 
+        /// Клиент берется из SelectedElement, eMail из 5 индекса массива Rows.ItemArrays
+        /// </summary>
         public RelayCommand SetClientsPurchaseDT
         {
             get
@@ -155,7 +199,6 @@ namespace OnlineShopProject
 
         #endregion
 
-        
         void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnlineShopProject"
         mc:Ignorable="d"
-        Title="StatusWindow" Height="450" Width="800">
+        Title="StatusWindow" Height="100" Width="250"
+        ResizeMode="NoResize" Background="DarkGray">
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -13,11 +14,14 @@
             <ColumnDefinition Width="0.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TextBlock Margin="5,5,0,0" Height="20" Width="125"
-                   VerticalAlignment="Top" Background="AliceBlue">Статус БД Клиентов</TextBlock>
+                   VerticalAlignment="Top" Background="AliceBlue"
+                   Text="Статус БД Клиентов" TextAlignment="Center">
+        </TextBlock>
         <TextBlock Grid.Column="1" VerticalAlignment="Top"
-                   Height="20" Margin="0,5,5,0" Background="AliceBlue" Text="{Binding Path=ClientsDBManager.ClientsDBConState}"></TextBlock>
+                   Height="20" Margin="0,5,5,0" Background="AliceBlue" Text="{Binding Path=_ClientsDBManager.ClientsDBConState}"></TextBlock>
         <TextBlock Margin="5,30,0,0" Height="20" Width="125"
-                   VerticalAlignment="Top" Background="AliceBlue">Статус БД Покупок</TextBlock>
+                   VerticalAlignment="Top" Background="AliceBlue"
+                   TextAlignment="Center">Статус БД Покупок</TextBlock>
         <TextBlock Grid.Column="1" VerticalAlignment="Top"
                    Height="20" Margin="0,30,5,0" Background="AliceBlue" Text="{Binding Path=SalesDBManager.salesDBConState}"></TextBlock>
 
