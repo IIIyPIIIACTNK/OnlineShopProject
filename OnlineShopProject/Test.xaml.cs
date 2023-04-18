@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace OnlineShopProject
 {
     /// <summary>
-    /// Логика взаимодействия для TestStyleWindow.xaml
+    /// Логика взаимодействия для Test.xaml
     /// </summary>
-    public partial class TestStyleWindow : Window
+    public partial class Test : Window
     {
-        public TestStyleWindow()
+        public Test()
         {
             InitializeComponent();
         }

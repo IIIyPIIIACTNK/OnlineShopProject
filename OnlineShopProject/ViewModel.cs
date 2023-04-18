@@ -69,7 +69,7 @@ namespace OnlineShopProject
         #endregion
 
         #endregion
-
+        
         #region Commands
         public RelayCommand AddClient
         {
@@ -110,7 +110,7 @@ namespace OnlineShopProject
                     }
                     catch(Exception ex)
                     {
-                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---");
                     }
                 }));
             }
@@ -127,7 +127,7 @@ namespace OnlineShopProject
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---");
                     }
                 }));
             }
@@ -146,7 +146,7 @@ namespace OnlineShopProject
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---");
                     }
                 }));
             }
@@ -165,7 +165,7 @@ namespace OnlineShopProject
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine($"--- Ошибка: {ex.Message} ---")
+                            Debug.WriteLine($"--- Ошибка: {ex.Message} ---");
                         }
                     }));
             }
