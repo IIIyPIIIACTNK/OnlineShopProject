@@ -6,15 +6,9 @@
         xmlns:local="clr-namespace:OnlineShopProject"
         mc:Ignorable="d"
         Title="AddClientWindow"  ResizeMode="NoResize" Height="250" Width="300"
-        WindowStartupLocation="CenterOwner" WindowStyle="None"
-        BorderThickness="1"
+        WindowStartupLocation="CenterOwner"
         Style="{StaticResource DefaultWindow}">
-    <Window.Resources>
-        <Style TargetType="Border">
-            <Setter Property="CornerRadius" Value="5"/>
-        </Style>
-        
-    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -52,12 +46,12 @@
                  Width="130" Height="20"/>
 
         <Button Grid.Column="0" Grid.Row="5" Command="{Binding AddClient}" 
-                Click="AddButtonClick" 
+                Click="AddButtonClick"  Style="{StaticResource CommandButton}"
                 Width="130" Height="20">
             Добавить
         </Button>
         <Button Grid.Column="1" Grid.Row="5" Click="CloseClick" 
-                Width="130" Height="20">Закрыть</Button>
+                Width="130" Height="20" Style="{StaticResource CommandButton}">Закрыть</Button>
 
     </Grid>
 </Window>

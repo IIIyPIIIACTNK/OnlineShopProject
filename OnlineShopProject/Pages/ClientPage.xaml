@@ -1,0 +1,99 @@
+﻿<Page x:Class="OnlineShopProject.Pages.ClientPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:OnlineShopProject"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ClientPage">
+      <!--xmlns:local="clr-namespace:OnlineShopProject.Pages"-->
+    <Page.Resources>
+    </Page.Resources>
+    <Grid>
+            <DataGrid ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" x:Name="ClientsDataGrid"
+                  IsSynchronizedWithCurrentItem="True"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="False"
+                  ItemsSource="{Binding Path =_ClientsDBManager.ClientsDBDataTable.DefaultView}"
+                  SelectedItem="{Binding SelectedElement}"
+                  BorderBrush="Transparent" SelectionChanged="MainGridSelectionChaged"   
+            >
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Id" Binding="{Binding id}"
+                                        Width="0.5*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Имя" Binding="{Binding name}"
+                                        Width="3*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding middleName}"
+                                        Width="3*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding lastName}"
+                                        Width="3*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Телефон" Binding="{Binding phoneNumber}"
+                                        Width="3*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Эл.Почта" Binding="{Binding eMail}"
+                                        Width="3*"></DataGridTextColumn>
+                </DataGrid.Columns>
+
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить" Click="AddMenuClick" />
+                        <MenuItem Header="Удалить" Command="{Binding DeleteClient}"/>
+                        <MenuItem Header="Показать продажи" Click="SalesGridShow" Command="{Binding SetClientsPurchaseDT}"></MenuItem>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+
+                <!--<i:Interaction.Triggers>
+                    <i:EventTrigger EventName="CellEditEnding">
+                        <i:InvokeCommandAction
+                        />
+                    </i:EventTrigger>
+                    <i:EventTrigger EventName="CurrentCellChanged">
+                        <i:InvokeCommandAction Command="{Binding EndEditClient}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>-->
+            </DataGrid>
+
+
+
+
+            <Grid Name="SalesGrid" HorizontalAlignment="Right" Width="250" Background="BlanchedAlmond" Visibility="Collapsed">
+                <DataGrid Background="BlanchedAlmond" ItemsSource="{Binding Path=ClientsPurchaseDT.DefaultView}"
+                      AutoGenerateColumns="False" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding itemDescription}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Код товара" Binding="{Binding uniqueItemCode}"></DataGridTextColumn>
+                    </DataGrid.Columns>
+
+                    <DataGrid.Resources>
+                        <ResourceDictionary>
+                            <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Background" Value="{x:Null}" />
+                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Background" Value="{x:Null}" />
+                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter Property="Background" Value="{x:Null}" />
+                                        <Setter Property="BorderBrush" Value="{x:Null}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ResourceDictionary>
+                    </DataGrid.Resources>
+                </DataGrid>
+
+                <Button Height="20" Width="20" VerticalAlignment="Top" HorizontalAlignment="Right"
+                    Margin="0,2,2,0" Click="SalesGridCloseClick" Style="{StaticResource WindowBarButton}"
+                    BorderBrush="#FFFA5A5A" Background="Gainsboro" 
+                    Foreground="#FFFF5050">X</Button>
+            </Grid>
+    </Grid>
+</Page>
