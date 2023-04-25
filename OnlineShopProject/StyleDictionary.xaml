@@ -71,29 +71,6 @@
         </Style.Triggers>
     </Style>
     <!--#endregion-->
-    <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="Width" Value="6"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Cursor" Value="SizeWE"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Thumb}">
-                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="FocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" 
-                               StrokeThickness="1"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
     
     
     <!--ComboBox-->
@@ -379,6 +356,31 @@
         </Style.Triggers>
     </Style>
     <!--#endregion-->
+    
+    <!--#region DataGrid-->
+    <Style x:Key="ColumnHeaderGripperStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="Width" Value="6"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Cursor" Value="SizeWE"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Border Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" 
+                               StrokeThickness="1"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <Style x:Key="DataGridColumnHeaderStyle1" TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Background" Value="#FFF8F0"/>
@@ -488,12 +490,13 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
+    <!--#endgrion-->
     
     <Style TargetType="TextBlock" x:Key="WhiteTextBlock">
         <Setter Property="Foreground" Value="#FFF8F0"></Setter>
     </Style>
 
-
+<!--#region Button-->
     <Style TargetType="Button" x:Key="BaseWindowBarButton">
         <Setter Property="Width" Value="20"></Setter>
         <Setter Property="Height" Value="20"></Setter>
@@ -504,7 +507,6 @@
             </Style>
         </Style.Resources>
     </Style>
-    <!--////-->
     <ControlTemplate TargetType="Button" x:Key="BaseWindowButtonTemplate">
         <Button Style="{TemplateBinding Style}">
             
@@ -635,6 +637,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--///-->
-
+<!--#endregion-->
 </ResourceDictionary>
