@@ -490,7 +490,7 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-    <!--#endgrion-->
+    <!--#endregion-->
     
     <Style TargetType="TextBlock" x:Key="WhiteTextBlock">
         <Setter Property="Foreground" Value="#FFF8F0"></Setter>
@@ -611,10 +611,10 @@
                                                         Duration="0:0:0.100" To="28"/>
                                     <DoubleAnimation Storyboard.TargetProperty="Height"
                                                         Duration="0:0:0.100" To="28"/>-->
-                                    <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
                                                      Duration="0:0:0.100" To="0.95"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                                     Duration="0:0:0.100" To="0.9"/>-->
+                                                     Duration="0:0:0.100" To="0.9"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -625,10 +625,10 @@
                                                         Duration="0:0:0.100" To="30"/>
                                     <DoubleAnimation Storyboard.TargetProperty="Height"
                                                         Duration="0:0:0.100" To="30"/>-->
-                                    <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
                                                      Duration="0:0:0.100" To="1"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                                     Duration="0:0:0.100" To="1"/>-->
+                                                     Duration="0:0:0.100" To="1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
