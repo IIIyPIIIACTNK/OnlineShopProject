@@ -1,0 +1,57 @@
+﻿<Window x:Class="OnlineShopProject.AddClientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OnlineShopProject"
+        mc:Ignorable="d"
+        Title="AddClientWindow"  ResizeMode="NoResize" Height="250" Width="300"
+        WindowStartupLocation="CenterOwner"
+        Style="{StaticResource DefaultWindow}">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">Имя</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1">Фамилия</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2">Отчество</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="3">Номер телефона</TextBlock>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="4">Электронная Почта</TextBlock>
+
+        <TextBox x:Name="clientsName"  Grid.Column="1" Grid.Row="0" 
+                 Text="{Binding ClientName, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsLastName"  Grid.Column="1" Grid.Row="1" 
+                 Text="{Binding ClientLastName, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsMiddleName"  Grid.Column="1" Grid.Row="2" 
+                 Text="{Binding ClientMiddleName, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsPhoneNumber"  Grid.Column="1" Grid.Row="3" 
+                 Text="{Binding ClientPhoneNumber, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+        <TextBox x:Name="clientsEMail"  Grid.Column="1" Grid.Row="4" 
+                 Text="{Binding ClientEMail, Mode=OneWayToSource}"
+                 Width="130" Height="20"/>
+
+        <Button Grid.Column="0" Grid.Row="5" Command="{Binding AddClient}" 
+                Click="AddButtonClick"  Style="{StaticResource CommandButton}"
+                Width="130" Height="20">
+            Добавить
+        </Button>
+        <Button Grid.Column="1" Grid.Row="5" Click="CloseClick" 
+                Width="130" Height="20" Style="{StaticResource CommandButton}">Закрыть</Button>
+
+    </Grid>
+</Window>

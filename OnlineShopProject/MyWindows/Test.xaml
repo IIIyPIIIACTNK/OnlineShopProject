@@ -1,0 +1,55 @@
+﻿<Window x:Class="OnlineShopProject.Test"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OnlineShopProject"
+        mc:Ignorable="d"
+        Title="Test" Height="450" Width="800"
+        Style="{StaticResource DefaultWindow}">
+    <Window.Resources>
+        
+    </Window.Resources>
+    <Grid>
+        <!--WindowBar-->
+        <Grid Height="20" VerticalAlignment="Top">
+            <Border Width="20" HorizontalAlignment="Right">
+                <Button Style="{StaticResource ResourceKey=WindowBarButton}" 
+                        Click="CloseButtonClick">
+                    <Button.Content>
+                        <Image Source="Assets\free-icon-font-cross-3917759.png"
+                            Width="13" Height="13">
+                        </Image>
+                    </Button.Content>
+                </Button>
+            </Border>
+            <Button Style="{StaticResource ResourceKey=WindowBarButton}"
+                        HorizontalAlignment="Right" Margin="0,0,20,0" Click="MaximizeClick">
+                <Image Source="Assets\free-icon-font-window-maximize-9272673.png"
+                       Width="15" Height="15"></Image>
+            </Button>
+            <Border>
+                <Button Style="{StaticResource ResourceKey=WindowBarButton}" 
+                        HorizontalAlignment="Right" Margin="0,0,40,0" Click="MinimizeClick">
+                    <Image Source="Assets\free-icon-font-window-minimize-9272675.png" Width="14"></Image>
+                </Button>
+            </Border>
+
+        </Grid>
+        
+        <!--LeftPanel-->
+        <Grid Width="40" HorizontalAlignment="Left">
+            <StackPanel Background="#111D4A">
+                <Button Style="{StaticResource NavigationPanelButton}" Margin="0,45,0,0" 
+                        Click="OpenClientPage"></Button>
+                <Button Style="{StaticResource NavigationPanelButton}" Margin="0,10,0,0" Click="OpenSalesWindow"></Button>
+            </StackPanel>
+        </Grid>
+        
+        <!--PagePanel-->
+        <Grid Margin="40,25,0,0">
+            <Frame x:Name="Mainframe" NavigationUIVisibility="Hidden"></Frame>
+        </Grid>
+
+    </Grid>
+</Window>

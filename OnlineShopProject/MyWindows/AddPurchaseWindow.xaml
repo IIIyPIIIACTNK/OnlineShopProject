@@ -6,8 +6,13 @@
         xmlns:local="clr-namespace:OnlineShopProject"
         mc:Ignorable="d"
         Title="AddPurchaseWindow" ResizeMode="NoResize" Height="200" Width="300"
-        Background="AntiqueWhite" WindowStyle="None" 
-        WindowStartupLocation="CenterOwner" BorderBrush="Black" BorderThickness="1">
+        WindowStartupLocation="CenterOwner" BorderBrush="Transparent" 
+        Style="{StaticResource DefaultWindow}">
+    <Window.Resources>
+        <Style TargetType="Border">
+            <Setter Property="CornerRadius" Value="5"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -44,12 +49,12 @@
                  DataObject.Pasting="ItemCodePaste"
                  Text="{Binding ItemCode,Mode=OneWayToSource}"/>
 
-        <Button Grid.Row="3" 
+        <Button Grid.Row="3" Style="{StaticResource CommandButton}"
                 Height="20" Width="100" Command="{Binding AddPurachase}" Click="AddButton" >Добавить</Button>
-        <Button Grid.Row="3" Grid.Column="1" Click="CloseWindow" 
+        <Button Grid.Row="3" Grid.Column="1" Click="CloseWindow" Style="{StaticResource CommandButton}"
                 Height="20" Width="100" Margin="0,0,-45,0">Закрыть</Button>
 
-        <Button Grid.Column="1" Grid.Row="1"
+        <Button Grid.Column="1" Grid.Row="1" Style="{StaticResource CommandButton}"
                 Height="20" Width="20" HorizontalAlignment="Right" 
                 Margin="0,0,15,0" Click="AddItemClick"> + </Button>
     </Grid>

@@ -9,15 +9,47 @@
 
   <ItemGroup>
     <Compile Remove="Icons\**" />
+    <Compile Remove="MSAccessDB\**" />
     <EmbeddedResource Remove="Icons\**" />
+    <EmbeddedResource Remove="MSAccessDB\**" />
     <None Remove="Icons\**" />
+    <None Remove="MSAccessDB\**" />
     <Page Remove="Icons\**" />
+    <Page Remove="MSAccessDB\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\free-icon-font-cross-3917759.png" />
+    <None Remove="Assets\free-icon-font-window-maximize-9272673.png" />
+    <None Remove="Assets\free-icon-font-window-minimize-9272675.png" />
+    <None Remove="Assets\gear_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.0" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="System.Data.OleDb" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\free-icon-font-cross-3917759.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\free-icon-font-window-maximize-9272673.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\free-icon-font-window-minimize-9272675.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\gear_icon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="AddItemWindow - Копировать.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

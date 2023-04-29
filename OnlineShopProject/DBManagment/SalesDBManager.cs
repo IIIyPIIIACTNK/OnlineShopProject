@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
 using System.Data.OleDb;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,7 +17,7 @@ using Microsoft.Data.Sql;
 
 namespace OnlineShopProject
 {
-    internal class SalesDBManager
+    internal class SalesDBManager : INotifyPropertyChanged
     {
         #region Fields
         OleDbConnection salesDBconnection;
@@ -29,9 +31,8 @@ namespace OnlineShopProject
             #region ConnectionString
                 OleDbConnectionStringBuilder connString = new OleDbConnectionStringBuilder()
                 {
-                    DataSource = @"C:\Users\gerem\VSProjects\OnlineShopProject\OnlineShopMSAccessBD.accdb",
-                    Provider = "Microsoft.ACE.OLEDB.12.0",
-                                        
+                    DataSource = @"..\OnlineShopMSAccessBD.accdb",
+                    Provider = "Microsoft.ACE.OLEDB.12.0"
                 };
 
         #endregion
@@ -42,7 +43,7 @@ namespace OnlineShopProject
             /// Состояние подключения к OSGoods базе данных для View
             /// </summary>
             /// <param name="propertyName"></param>
-            public string salesDBConState { get { return salesDBconnection.State.ToString(); } }
+            public string salesDBConState { get { return salesDBconnection.State.ToString(); } set { OnPropertyChanged(); } }
 
             public Dictionary<int, string> ItemsIdNamesDict { get { return itemsIdNamesDict;} }
 
@@ -50,6 +51,9 @@ namespace OnlineShopProject
             public string ItemDescription { get; set; }
 
         RelayCommand? addItem;
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public RelayCommand AddItem
         {
             get
@@ -125,6 +129,7 @@ VALUES (@eMail,@itemCode,@uniqueItemCode);
                 dataAdapter.Update(dt);
             }
 
+               
         }
 
         public void InsertNewItem()
@@ -182,8 +187,6 @@ WHERE  (REPLACE(REPLACE(SoldGoods.eMail, '@', ''), '.', '') LIKE @eMail)";
                 Debug.WriteLine(salesDT.DefaultView.Count);
             }
 
-
-            //Вернуть осотавленную таблицу, придумать как ее обновить, придумать как послать во вью модел через делегать или публичным методом
             return salesDT;
         }
 
@@ -218,5 +221,9 @@ WHERE  (REPLACE(REPLACE(SoldGoods.eMail, '@', ''), '.', '') LIKE @eMail)";
             }
         }
 
+        void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

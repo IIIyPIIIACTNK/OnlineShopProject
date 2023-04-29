@@ -10,23 +10,26 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OnlineShopProject
+namespace OnlineShopProject.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для StartWindow.xaml
+    /// Логика взаимодействия для SalesPage.xaml
     /// </summary>
-    public partial class StartWindow : Window
+    public partial class SalesPage : Page
     {
-        public StartWindow()
+        public SalesPage()
         {
             InitializeComponent();
         }
 
-        private void CloseAppClick(object sender, RoutedEventArgs e)
+        private void OpenAddPurchaseWindow(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            AddPurchaseWindow addPurchaseWindow = new AddPurchaseWindow();
+            addPurchaseWindow.DataContext = DataContext;
+            addPurchaseWindow.Show();
         }
     }
 }

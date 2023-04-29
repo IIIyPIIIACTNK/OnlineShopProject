@@ -10,43 +10,45 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace OnlineShopProject
+namespace OnlineShopProject.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для ClientsWindow.xaml
+    /// Логика взаимодействия для ClientPage.xaml
     /// </summary>
-    public partial class ClientsWindow : Window
+    public partial class ClientPage : Page
     {
-        ViewModel vm = new ViewModel();
-        public ClientsWindow()
+        public ClientPage()
         {
             InitializeComponent();
-            //DataContext= vm;
+        }
+
+        private void MainGridSelectionChaged(object sender, SelectionChangedEventArgs e)
+        {
+            if (SalesGrid != null)
+            {
+                SalesGrid.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void AddMenuClick(object sender, RoutedEventArgs e)
         {
             AddClientWindow addClientWindow = new AddClientWindow();
-            addClientWindow.DataContext = vm;
+            addClientWindow.DataContext = DataContext;
+            //addClientWindow.Owner = ;
             addClientWindow.Show();
         }
 
         private void SalesGridShow(object sender, RoutedEventArgs e)
         {
-            SalesGrid.Visibility= Visibility.Visible;
+            SalesGrid.Visibility = Visibility.Visible;
         }
 
         private void SalesGridCloseClick(object sender, RoutedEventArgs e)
         {
             SalesGrid.Visibility = Visibility.Collapsed;
-
-        }
-
-        private void MainGridSelectionChaged(object sender, SelectionChangedEventArgs e)
-        {
-           // SalesGrid.Visibility = Visibility.Collapsed;
         }
     }
 }
