@@ -19,7 +19,7 @@ namespace OnlineShopProject
         #region Fields
 
         SqlConnection clientsDBconnection;
-        SqlDataAdapter dataAdapter;
+        SqlDataAdapter? dataAdapter;
         DataTable dt = new DataTable();
         SqlConnectionStringBuilder connString = new SqlConnectionStringBuilder() 
         {

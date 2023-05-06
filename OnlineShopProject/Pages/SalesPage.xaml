@@ -12,20 +12,20 @@
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   IsReadOnly="False"
-                  ItemsSource="{Binding Path=SalesDBManager.SalesDBDataTable.DefaultView}" 
+                  ItemsSource="{Binding Path=SoldItemsToView}" 
                   SelectedItem="{Binding SelectedElement}"
                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
                   HorizontalGridLinesBrush="#FF080854"
                   VerticalGridLinesBrush="#FF080854"
             >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding id}" IsReadOnly="True"
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"
                                     Width="0.5*"/>
-                <DataGridTextColumn Header="Код Товара" Binding="{Binding uniqueItemCode}"
+                <DataGridTextColumn Header="Код Товара" Binding="{Binding ItemCode}"
                                     Width="1*"/>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding itemDescription}"
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"
                                     Width="1.5*"/>
-                <DataGridTextColumn Header="eMail покупателя" Binding="{Binding eMail}"
+                <DataGridTextColumn Header="eMail покупателя" Binding="{Binding CustomerEmail}"
                                     Width="1*"/>
             </DataGrid.Columns>
 

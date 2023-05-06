@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -11,11 +12,38 @@ using System.Threading;
 using System.Diagnostics;
 using System.Windows;
 using System.Data;
+using OnlineShopProject.Models;
+
 
 namespace OnlineShopProject
 {
     class ViewModel : INotifyPropertyChanged
     {
+        public OsClientsContext ShopDBContext { get; set; }
+        private void TestCommand()
+        {
+            Item iten = new Item()
+            {
+                Name= "Телефон",
+            };
+            ShopDBContext.Items.Add(iten);
+            SoldItem soldItem = new SoldItem()
+            {
+                ItemId = 2,
+                ItemCode = 2,
+                CustomerEmail = "maks@mail.ru"
+            };
+            ShopDBContext.SoldItems.Add(soldItem);
+            ShopDBContext.SaveChanges();
+        }
+        public ViewModel()
+        {
+            ShopDBContext = new OsClientsContext();
+            TestCommand();
+            //Debug.WriteLine($"--- {ShopDBContext.Items.Local.Count}");
+            //Debug.WriteLine($"--- {ShopDBContext.SoldItems.Local.Count}");
+        }
+
         #region Fields
 
         SalesDBManager salesDBManager = new SalesDBManager();
@@ -34,6 +62,18 @@ namespace OnlineShopProject
         #region Properties
 
         #region View
+        // -----------EF core object binding
+        public IQueryable SoldItemsToView => ShopDBContext.SoldItems.Join(ShopDBContext.Items,
+            soldItem => soldItem.ItemId,
+            item => item.Id,
+            (soldItem, item) => new
+            {
+                soldItem.Id,
+                soldItem.ItemCode,
+                soldItem.CustomerEmail,
+                item.Name
+            });
+        // -----------
         /// <summary>
         /// Ссылка на класс-менеджер базой данных продаж
         /// </summary>
@@ -51,7 +91,7 @@ namespace OnlineShopProject
         /// <summary>
         /// Выбранный элемент из таблицы (Как для таблицы клиентов так и для таблицы продаж)
         /// </summary>
-        public DataRowView SelectedElement { get;set; }
+        public object SelectedElement { get;set; }
         public string ClientName { get; set; }
         public string ClientLastName { get; set; }
         public string ClientMiddleName { get; set; }
@@ -80,18 +120,19 @@ namespace OnlineShopProject
                     {
                         try
                         {
-                            DataRow dataRow = clientsDBManager.ClientsDBDataTable.NewRow();
-                            dataRow["lastName"] = ClientLastName;
-                            dataRow["name"] = ClientName;
-                            dataRow["middleName"] = ClientMiddleName;
-                            dataRow["phoneNumber"] = ClientPhoneNumber;
-                            dataRow["eMail"] = ClientEMail;
-                            clientsDBManager.ClientsDBDataTable.Rows.Add(dataRow);
-                            _ClientsDBManager.InsertClientCommand();
+                            ShopDBContext.Clients.Add(new Client()
+                            {
+                                Name = ClientName,
+                                LastName = ClientLastName,
+                                MiddleName = ClientMiddleName,
+                                PhoneNumber = ClientPhoneNumber,
+                                EMail = ClientEMail,
+                            });
+                            ShopDBContext.SaveChanges();
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine($"--- Ошибка : {ex.Message} ---");
+                            Debug.WriteLine($"--- Ошибка при вызове метода AddClient: {ex.Message} ---");
                         }
                     }));
             }
@@ -102,17 +143,17 @@ namespace OnlineShopProject
             {
                 return deleteClient ?? 
                     (deleteClient = new RelayCommand(o =>
-                {
-                    try
                     {
-                        SelectedElement.Row.Delete();
-                        _ClientsDBManager.DeleteClientCommand();
-                    }
-                    catch(Exception ex)
-                    {
-                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---");
-                    }
-                }));
+                        try
+                        {
+                            ShopDBContext.Clients.Remove((Client)SelectedElement);
+                            ShopDBContext.SaveChanges();
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"--- Ошибка при вызове метода DeleteClient: {ex.Message} ---");
+                        }
+                    }));
             }
         }
         public RelayCommand EndEditClient
@@ -123,11 +164,11 @@ namespace OnlineShopProject
                 {
                     try
                     {
-                        clientsDBManager.UpdateClientCommand();
+                        ShopDBContext.SaveChanges();
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"--- Ошибка: {ex.Message} ---");
+                        Debug.WriteLine($"--- Ошибка при вызове метода EndEditClient: {ex.Message} ---");
                     }
                 }));
             }
@@ -160,7 +201,7 @@ namespace OnlineShopProject
                     {
                         try
                         {
-                            SelectedElement.Row.Delete();
+                            //SelectedElement.Row.Delete();
                             salesDBManager.DeletePurchaseCommand();
                         }
                         catch (Exception ex)
@@ -182,8 +223,8 @@ namespace OnlineShopProject
                 {
                     try
                     {
-                        Debug.WriteLine($"--- {SelectedElement.Row.ItemArray[5]} ---");
-                        ClientsPurchaseDT = salesDBManager.SelectClientsPurchase(SelectedElement.Row.ItemArray[5].ToString());
+                        //Debug.WriteLine($"--- {SelectedElement.Row.ItemArray[5]} ---");
+                        //ClientsPurchaseDT = salesDBManager.SelectClientsPurchase(SelectedElement.Row.ItemArray[5].ToString());
                         ClientsPurchaseDT.EndInit();
                         
                     }
