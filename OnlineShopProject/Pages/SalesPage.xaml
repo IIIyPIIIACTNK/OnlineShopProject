@@ -12,7 +12,7 @@
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   IsReadOnly="False"
-                  ItemsSource="{Binding Path=SoldItemsToView}" 
+                  ItemsSource="{Binding Path=SIToView}" 
                   SelectedItem="{Binding SelectedElement}"
                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
                   HorizontalGridLinesBrush="#FF080854"

@@ -42,7 +42,14 @@
                  Text="{Binding ClientEMail,Mode=OneWayToSource}"/>
         <ComboBox Grid.Row="1" Grid.Column="1" Height="20" Width="130" 
                  Margin="0,0,40,0" ItemsSource="{Binding Path=ShopDBContext.ItemsToView}"
-                 SelectedItem="{Binding ItemDescription,Mode=OneWayToSource}">
+                 SelectedItem="{Binding ComboBoxItemModelBinding,Mode=OneWayToSource}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
         </ComboBox>
         <TextBox Grid.Row="2" Grid.Column="1" Height="20" Width="160" 
                  Margin="0,0,10,0" PreviewTextInput="ItemCodeInput"

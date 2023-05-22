@@ -40,7 +40,7 @@
                     <ContextMenu>
                         <MenuItem Header="Добавить" Click="AddMenuClick" />
                         <MenuItem Header="Удалить" Command="{Binding DeleteClient}"/>
-                        <MenuItem Header="Показать продажи" Click="SalesGridShow" Command="{Binding SetClientsPurchaseDT}"></MenuItem>
+                    <MenuItem Header="Показать продажи" Click="SalesGridShow" ></MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -52,6 +52,9 @@
                 <i:EventTrigger EventName="CurrentCellChanged">
                     <i:InvokeCommandAction Command="{Binding EndEditClient}"/>
                 </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SetClientsPurchaseDT}"/>
+                </i:EventTrigger>
             </i:Interaction.Triggers>
             </DataGrid>
 
@@ -59,11 +62,12 @@
 
 
             <Grid Name="SalesGrid" HorizontalAlignment="Right" Width="250" Background="BlanchedAlmond" Visibility="Collapsed">
-                <DataGrid Background="BlanchedAlmond" ItemsSource="{Binding Path=ClientsPurchaseDT.DefaultView}"
-                      AutoGenerateColumns="False" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}">
+            <DataGrid Name="SalesDataGrid" Background="BlanchedAlmond" ItemsSource="{Binding CPToView}"
+                      AutoGenerateColumns="False" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                      CanUserResizeColumns="False" CanUserResizeRows="False">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding ItemDescription}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Код товара" Binding="{Binding uniqueItemCode}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding ItemName}" Width="1*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Код товара" Binding="{Binding ItemCode}" Width="1*"></DataGridTextColumn>
                     </DataGrid.Columns>
 
                     <DataGrid.Resources>

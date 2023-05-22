@@ -13,41 +13,20 @@ using System.Diagnostics;
 using System.Windows;
 using System.Data;
 using OnlineShopProject.Models;
-
+using OnlineShopProject.MyViewModels;
 
 namespace OnlineShopProject
 {
     class ViewModel : INotifyPropertyChanged
     {
         public OsClientsContext ShopDBContext { get; set; }
-        private void TestCommand()
-        {
-            Item iten = new Item()
-            {
-                Name= "Телефон",
-            };
-            ShopDBContext.Items.Add(iten);
-            SoldItem soldItem = new SoldItem()
-            {
-                ItemId = 2,
-                ItemCode = 2,
-                CustomerEmail = "maks@mail.ru"
-            };
-            ShopDBContext.SoldItems.Add(soldItem);
-            ShopDBContext.SaveChanges();
-        }
         public ViewModel()
         {
             ShopDBContext = new OsClientsContext();
-            TestCommand();
-            //Debug.WriteLine($"--- {ShopDBContext.Items.Local.Count}");
-            //Debug.WriteLine($"--- {ShopDBContext.SoldItems.Local.Count}");
+            SIToView = new ObservableCollection<SoldItemViewModel>(SoldItemsToView());
         }
 
         #region Fields
-
-        SalesDBManager salesDBManager = new SalesDBManager();
-        ClientsDBManager clientsDBManager = new ClientsDBManager();
         
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -56,6 +35,7 @@ namespace OnlineShopProject
         RelayCommand? removeClinet;
         RelayCommand? addPurachase;
         RelayCommand? deletePurchase;
+        RelayCommand? addItem;
         RelayCommand? setClientsPurchaseDT;
         #endregion
 
@@ -63,28 +43,72 @@ namespace OnlineShopProject
 
         #region View
         // -----------EF core object binding
-        public IQueryable SoldItemsToView => ShopDBContext.SoldItems.Join(ShopDBContext.Items,
-            soldItem => soldItem.ItemId,
-            item => item.Id,
-            (soldItem, item) => new
+
+        public ObservableCollection<SoldItemViewModel> SIToView { get; set; }
+        private List<SoldItemViewModel> SoldItemsToView()
+        {
+            List<SoldItemViewModel> result = new List<SoldItemViewModel>();
+            var query = from si in ShopDBContext.SoldItems
+                        join i in ShopDBContext.Items on si.ItemId equals i.Id into gj
+                        from sub in gj.DefaultIfEmpty()
+                        select new
+                        {
+                            Id = si.Id,
+                            Name = sub.Name,
+                            ItemCode = si.ItemCode,
+                            CustomerEmail = si.CustomerEmail,
+                            ItemId = si.ItemId,
+                        };
+            result = query.Select(x => new SoldItemViewModel
             {
-                soldItem.Id,
-                soldItem.ItemCode,
-                soldItem.CustomerEmail,
-                item.Name
-            });
+                Id = x.Id,
+                Name = x.Name,
+                ItemCode = x.ItemCode,
+                CustomerEmail = x.CustomerEmail,
+                itemId= x.ItemId,
+            }).ToList();
+
+            Debug.WriteLine("-------------Данные--------------");
+            foreach(var item in result)
+            {
+                Debug.WriteLine($"*--- {item.Id} {item.Name} {item.ItemCode} {item.CustomerEmail}");
+            }
+            Debug.WriteLine("---------------------------------");
+
+            return result;
+        }
+
+        //public List<ClientsPurchasesViewModel> CPToView { get { return ClientPurchasesToView(); } set { CPToView = value; OnPropertyChanged(); } }
+
+        //public ObservableCollection<ClientsPurchasesViewModel> cPToView;
+        public ObservableCollection<ClientsPurchasesViewModel> CPToView { get; set; }
+        public List<ClientsPurchasesViewModel> testtesttest = new List<ClientsPurchasesViewModel>() { new ClientsPurchasesViewModel() { ItemName = "test"} };
+        public List<ClientsPurchasesViewModel> ClientPurchasesToView()
+        {
+            var selectedClient = (Client)SelectedElement;
+            List<ClientsPurchasesViewModel> result;
+            var query = from si in ShopDBContext.SoldItems
+                        join c in ShopDBContext.Clients on si.CustomerEmail equals selectedClient.EMail into gj
+                        from sub in gj.DefaultIfEmpty()
+                        join i in ShopDBContext.Items on si.ItemId equals i.Id into gj2
+                        from sub2 in gj2.DefaultIfEmpty()
+                        select new
+                        {
+                            ItemName = sub2.Name,
+                            ItemCode = si.ItemCode,
+                        };
+            result = query.Select(x => new ClientsPurchasesViewModel()
+            {
+                ItemName= x.ItemName,
+                ItemCode = x.ItemCode,
+            }).ToList();
+            Debug.WriteLine($"------ {result.Count}");
+
+            return result;
+        }
+
         // -----------
-        /// <summary>
-        /// Ссылка на класс-менеджер базой данных продаж
-        /// </summary>
-        public SalesDBManager SalesDBManager { get { return salesDBManager; } }
-        public ClientsDBManager _ClientsDBManager { get { return clientsDBManager; } }
-        /// <summary>
-        /// Таблица покупок отдельного клиенты
-        /// </summary>
-        public DataTable clientsPurchaseDT = new DataTable();
-        public DataTable ClientsPurchaseDT  { get{ return clientsPurchaseDT; } set { clientsPurchaseDT = value; OnPropertyChanged(); } }
-       
+
         #region ClientsDataFromView
         //NB! Научится использовать мульти привязку в XAML для исключения множества свойств привязки
 
@@ -104,12 +128,13 @@ namespace OnlineShopProject
         //NB! Научится использовать мульти привязку в XAML для исключения множества свойств привязки
 
         public string ItemCode { get; set; }
+        public Item ComboBoxItemModelBinding { get; set; } 
         public string ItemDescription { get; set; } 
 
         #endregion
 
         #endregion
-        
+
         #region Commands
         public RelayCommand AddClient
         {
@@ -181,9 +206,16 @@ namespace OnlineShopProject
                 {
                     try
                     {
-                        salesDBManager.InsertPurchaseCommand(ClientEMail,
-                         salesDBManager.ItemsIdNamesDict.FirstOrDefault(x => x.Value == ItemDescription).Key.ToString(),
-                         ItemCode);
+                        ShopDBContext.SoldItems.Add(new SoldItem()
+                        {
+                            CustomerEmail = ClientEMail,
+                            ItemId = ComboBoxItemModelBinding.Id,
+                            ItemCode = Convert.ToInt32(ItemCode)
+                        });
+                        ShopDBContext.SaveChanges();
+                        Debug.WriteLine("----- Обьект добавлен-----");
+                        Debug.WriteLine($"{ComboBoxItemModelBinding.Id} {ComboBoxItemModelBinding.Name} {ItemCode} {ClientEMail}");
+                        Debug.WriteLine("----- Обьект добавлен-----");
                     }
                     catch (Exception ex)
                     {
@@ -201,14 +233,39 @@ namespace OnlineShopProject
                     {
                         try
                         {
-                            //SelectedElement.Row.Delete();
-                            salesDBManager.DeletePurchaseCommand();
+                            var elementToDelete = (SoldItemViewModel)SelectedElement;
+                            ShopDBContext.SoldItems.Remove(elementToDelete.ToSoldItemDBModel());
+                            ShopDBContext.SaveChanges(true);
+                            Debug.WriteLine("----Удалено----");
+                            Debug.WriteLine($"{elementToDelete.Id} {elementToDelete.Name} {elementToDelete.ItemCode} {elementToDelete.CustomerEmail}");
+                            Debug.WriteLine("---------------");
                         }
                         catch (Exception ex)
                         {
-                            Debug.WriteLine($"--- Ошибка: {ex.Message} ---");
+                            Debug.WriteLine($"--- Ошибка при вызове метода DeleteCommand: {ex.Message} ---");
                         }
                     }));
+            }
+        }
+        public RelayCommand AddItem
+        {
+            get
+            {
+                return addItem ??= new RelayCommand(o =>
+                {
+                    try
+                    {
+                        ShopDBContext.Items.Add(new Item
+                        {
+                            Name = ItemDescription
+                        });
+                        ShopDBContext.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"--- {ex.Message}");
+                    }
+                });
             }
         }
         /// <summary>
@@ -223,10 +280,8 @@ namespace OnlineShopProject
                 {
                     try
                     {
-                        //Debug.WriteLine($"--- {SelectedElement.Row.ItemArray[5]} ---");
-                        //ClientsPurchaseDT = salesDBManager.SelectClientsPurchase(SelectedElement.Row.ItemArray[5].ToString());
-                        ClientsPurchaseDT.EndInit();
-                        
+                        CPToView = new ObservableCollection<ClientsPurchasesViewModel>(ClientPurchasesToView());
+                        Debug.WriteLine($"------ CPToView.Count = {CPToView.Count}");
                     }
                     catch (Exception ex)
                     {

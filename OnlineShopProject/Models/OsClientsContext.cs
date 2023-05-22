@@ -11,8 +11,8 @@ public partial class OsClientsContext : DbContext
     public OsClientsContext()
     {
         Clients.Load();
-        //Items.Load();
-        //SoldItems.Load();
+        Items.Load();
+        SoldItems.Load();
     }
 
     public OsClientsContext(DbContextOptions<OsClientsContext> options)
@@ -24,7 +24,6 @@ public partial class OsClientsContext : DbContext
     public ObservableCollection<Client> ClientsToView { get { return Clients.Local.ToObservableCollection(); } }
     public virtual DbSet<SoldItem> SoldItems { get; set; }
     public virtual DbSet<Item> Items { get; set; }
-
     public ObservableCollection<Item> ItemsToView { get { return Items.Local.ToObservableCollection(); } }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
