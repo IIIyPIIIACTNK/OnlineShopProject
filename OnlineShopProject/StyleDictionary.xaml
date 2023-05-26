@@ -335,7 +335,6 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
         <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
@@ -375,7 +374,7 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" 
+                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{StaticResource Custom.DarkBlue}" SnapsToDevicePixels="true" 
                                StrokeThickness="1"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -410,7 +409,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                        <Rectangle x:Name="Border" Fill="{StaticResource Custom.DarkBlue}" SnapsToDevicePixels="True"/>
                         <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3" Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -433,10 +432,10 @@
         <Setter Property="RowBackground" Value="#FFF9F0"/>
         <Setter Property="Background" Value="#FFF8F0"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Foreground" Value="{StaticResource Custom.Black}"/>
         <Setter Property="BorderBrush" Value="#111D4A"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="GridLinesVisibility" Value="Vertical"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
         <Setter Property="HorizontalGridLinesBrush" Value="#111D4A"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>
@@ -496,7 +495,7 @@
         <Setter Property="Foreground" Value="#FFF8F0"></Setter>
     </Style>
 
-<!--#region Button-->
+    <!--#region Button-->
     <Style TargetType="Button" x:Key="BaseWindowBarButton">
         <Setter Property="Width" Value="20"></Setter>
         <Setter Property="Height" Value="20"></Setter>
@@ -611,10 +610,10 @@
                                                         Duration="0:0:0.100" To="28"/>
                                     <DoubleAnimation Storyboard.TargetProperty="Height"
                                                         Duration="0:0:0.100" To="28"/>-->
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                    <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
                                                      Duration="0:0:0.100" To="0.95"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                                     Duration="0:0:0.100" To="0.9"/>
+                                                     Duration="0:0:0.100" To="0.9"/>-->
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -625,10 +624,10 @@
                                                         Duration="0:0:0.100" To="30"/>
                                     <DoubleAnimation Storyboard.TargetProperty="Height"
                                                         Duration="0:0:0.100" To="30"/>-->
-                                    <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                    <!--<DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleX"
                                                      Duration="0:0:0.100" To="1"/>
                                     <DoubleAnimation Storyboard.TargetProperty="RenderTransform.ScaleY"
-                                                     Duration="0:0:0.100" To="1"/>
+                                                     Duration="0:0:0.100" To="1"/>-->
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>

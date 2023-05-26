@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,13 +38,13 @@ namespace OnlineShopProject.Pages
         {
             AddClientWindow addClientWindow = new AddClientWindow();
             addClientWindow.DataContext = DataContext;
-            //addClientWindow.Owner = ;
             addClientWindow.Show();
         }
 
         private void SalesGridShow(object sender, RoutedEventArgs e)
         {
             SalesGrid.Visibility = Visibility.Visible;
+            Debug.WriteLine($"----- ClientPage.xaml SalesDataGrid.ItemSource = {SalesDataGrid.ItemsSource}");
         }
 
         private void SalesGridCloseClick(object sender, RoutedEventArgs e)

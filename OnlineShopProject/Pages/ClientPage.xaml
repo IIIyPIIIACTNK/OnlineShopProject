@@ -3,34 +3,36 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:OnlineShopProject"
+      xmlns:vm="clr-namespace:OnlineShopProject.MyViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ClientPage">
-      <!--xmlns:local="clr-namespace:OnlineShopProject.Pages"-->
-    <Page.Resources>
-    </Page.Resources>
+    <Page.DataContext>
+        <vm:ViewModel/>
+    </Page.DataContext>
     <Grid>
             <DataGrid ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" x:Name="ClientsDataGrid"
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   IsReadOnly="False"
-                  ItemsSource="{Binding Path =_ClientsDBManager.ClientsDBDataTable.DefaultView}"
                   SelectedItem="{Binding SelectedElement}"
                   BorderBrush="Transparent" SelectionChanged="MainGridSelectionChaged"   
+                  ItemsSource="{Binding Path =ShopDBContext.ClientsToView}"
             >
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="Id" Binding="{Binding id}"
+                    <DataGridTextColumn Header="Id" Binding="{Binding Id}"
                                         Width="0.5*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Имя" Binding="{Binding name}"
+                    <DataGridTextColumn Header="Имя" Binding="{Binding Name}"
                                         Width="3*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Отчество" Binding="{Binding middleName}"
+                    <DataGridTextColumn Header="Отчество" Binding="{Binding MiddleName}"
                                         Width="3*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Фамилия" Binding="{Binding lastName}"
+                    <DataGridTextColumn Header="Фамилия" Binding="{Binding LastName}"
                                         Width="3*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Телефон" Binding="{Binding phoneNumber}"
+                    <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"
                                         Width="3*"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Эл.Почта" Binding="{Binding eMail}"
+                    <DataGridTextColumn Header="Эл.Почта" Binding="{Binding EMail}"
                                         Width="3*"></DataGridTextColumn>
                 </DataGrid.Columns>
 
@@ -38,33 +40,40 @@
                     <ContextMenu>
                         <MenuItem Header="Добавить" Click="AddMenuClick" />
                         <MenuItem Header="Удалить" Command="{Binding DeleteClient}"/>
-                        <MenuItem Header="Показать продажи" Click="SalesGridShow" Command="{Binding SetClientsPurchaseDT}"></MenuItem>
+                    <MenuItem Header="Показать продажи" Click="SalesGridShow" 
+                              Command="{Binding SetClientsPurchaseDT}"></MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
-                <!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="CellEditEnding">
-                        <i:InvokeCommandAction
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="CellEditEnding">
+                    <i:InvokeCommandAction
                         />
-                    </i:EventTrigger>
-                    <i:EventTrigger EventName="CurrentCellChanged">
-                        <i:InvokeCommandAction Command="{Binding EndEditClient}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>-->
+                </i:EventTrigger>
+                <i:EventTrigger EventName="CurrentCellChanged">
+                    <i:InvokeCommandAction Command="{Binding EndEditClient}"/>
+                </i:EventTrigger>
+                <!--<i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SetClientsPurchaseDT}"/>
+                </i:EventTrigger>-->
+            </i:Interaction.Triggers>
             </DataGrid>
 
 
 
 
-            <Grid Name="SalesGrid" HorizontalAlignment="Right" Width="250" Background="BlanchedAlmond" Visibility="Collapsed">
-                <DataGrid Background="BlanchedAlmond" ItemsSource="{Binding Path=ClientsPurchaseDT.DefaultView}"
-                      AutoGenerateColumns="False" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}">
+            <Grid Name="SalesGrid" HorizontalAlignment="Right" Width="250" Background="BlanchedAlmond"
+                  Visibility="Collapsed">
+                <DataGrid Name="SalesDataGrid" Background="BlanchedAlmond" ItemsSource="{Binding CPToView}"
+                      AutoGenerateColumns="False" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
+                      CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True"
+                      RowBackground="#FFFFEBCD" AlternatingRowBackground="BlanchedAlmond">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Наименование" Binding="{Binding itemDescription}"></DataGridTextColumn>
-                        <DataGridTextColumn Header="Код товара" Binding="{Binding uniqueItemCode}"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Наименование" Binding="{Binding ItemName}" Width="1*"></DataGridTextColumn>
+                        <DataGridTextColumn Header="Код товара" Binding="{Binding ItemCode}" Width="1*"></DataGridTextColumn>
                     </DataGrid.Columns>
 
-                    <DataGrid.Resources>
+                    <!--<DataGrid.Resources>
                         <ResourceDictionary>
                             <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
                                 <Setter Property="Background" Value="{x:Null}" />
@@ -87,7 +96,7 @@
                                 </Style.Triggers>
                             </Style>
                         </ResourceDictionary>
-                    </DataGrid.Resources>
+                    </DataGrid.Resources>-->
                 </DataGrid>
 
                 <Button Height="20" Width="20" VerticalAlignment="Top" HorizontalAlignment="Right"

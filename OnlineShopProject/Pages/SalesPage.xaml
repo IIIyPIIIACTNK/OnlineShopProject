@@ -4,28 +4,32 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:OnlineShopProject.Pages"
+      xmlns:vm="clr-namespace:OnlineShopProject.MyViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SalesPage">
+    <Page.DataContext>
+        <vm:ViewModel/>
+    </Page.DataContext>
     <Grid>
         <DataGrid x:Name="soldGoodsDataGrid"
                   IsSynchronizedWithCurrentItem="True"
                   AutoGenerateColumns="False"
                   IsReadOnly="False"
-                  ItemsSource="{Binding Path=SalesDBManager.SalesDBDataTable.DefaultView}" 
+                  ItemsSource="{Binding Path=SIToView}" 
                   SelectedItem="{Binding SelectedElement}"
                   ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
                   HorizontalGridLinesBrush="#FF080854"
                   VerticalGridLinesBrush="#FF080854"
             >
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Id" Binding="{Binding id}" IsReadOnly="True"
+                <DataGridTextColumn Header="Id" Binding="{Binding Id}" IsReadOnly="True"
                                     Width="0.5*"/>
-                <DataGridTextColumn Header="Код Товара" Binding="{Binding uniqueItemCode}"
+                <DataGridTextColumn Header="Код Товара" Binding="{Binding ItemCode}"
                                     Width="1*"/>
-                <DataGridTextColumn Header="Наименование" Binding="{Binding itemDescription}"
+                <DataGridTextColumn Header="Наименование" Binding="{Binding Name}"
                                     Width="1.5*"/>
-                <DataGridTextColumn Header="eMail покупателя" Binding="{Binding eMail}"
+                <DataGridTextColumn Header="eMail покупателя" Binding="{Binding CustomerEmail}"
                                     Width="1*"/>
             </DataGrid.Columns>
 
