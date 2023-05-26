@@ -22,15 +22,9 @@ namespace OnlineShopProject
     {
         ClientPage clientPage = new ClientPage();
         SalesPage salesPage = new SalesPage();
-        ViewModel vm = new ViewModel();
         public Test()
         {
             InitializeComponent();
-            DataContext = vm;
-
-            clientPage.DataContext = DataContext;
-            salesPage.DataContext = DataContext;
-
             Mainframe.Content = clientPage;
         }
 

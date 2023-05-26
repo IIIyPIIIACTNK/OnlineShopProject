@@ -5,13 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
       xmlns:local="clr-namespace:OnlineShopProject"
+      xmlns:vm="clr-namespace:OnlineShopProject.MyViewModels"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ClientPage">
-      <!--xmlns:local="clr-namespace:OnlineShopProject.Pages"-->
-    <Page.Resources>
-        <CollectionViewSource x:Key="clientsViewSource" Source="{Binding Clients,Source=asd}"/>
-    </Page.Resources>
+    <Page.DataContext>
+        <vm:ViewModel/>
+    </Page.DataContext>
     <Grid>
             <DataGrid ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}" x:Name="ClientsDataGrid"
                   IsSynchronizedWithCurrentItem="True"
@@ -40,7 +40,8 @@
                     <ContextMenu>
                         <MenuItem Header="Добавить" Click="AddMenuClick" />
                         <MenuItem Header="Удалить" Command="{Binding DeleteClient}"/>
-                    <MenuItem Header="Показать продажи" Click="SalesGridShow" ></MenuItem>
+                    <MenuItem Header="Показать продажи" Click="SalesGridShow" 
+                              Command="{Binding SetClientsPurchaseDT}"></MenuItem>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
 
@@ -52,25 +53,27 @@
                 <i:EventTrigger EventName="CurrentCellChanged">
                     <i:InvokeCommandAction Command="{Binding EndEditClient}"/>
                 </i:EventTrigger>
-                <i:EventTrigger EventName="SelectionChanged">
+                <!--<i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding SetClientsPurchaseDT}"/>
-                </i:EventTrigger>
+                </i:EventTrigger>-->
             </i:Interaction.Triggers>
             </DataGrid>
 
 
 
 
-            <Grid Name="SalesGrid" HorizontalAlignment="Right" Width="250" Background="BlanchedAlmond" Visibility="Collapsed">
-            <DataGrid Name="SalesDataGrid" Background="BlanchedAlmond" ItemsSource="{Binding CPToView}"
+            <Grid Name="SalesGrid" HorizontalAlignment="Right" Width="250" Background="BlanchedAlmond"
+                  Visibility="Collapsed">
+                <DataGrid Name="SalesDataGrid" Background="BlanchedAlmond" ItemsSource="{Binding CPToView}"
                       AutoGenerateColumns="False" ColumnHeaderStyle="{DynamicResource DataGridColumnHeaderStyle1}"
-                      CanUserResizeColumns="False" CanUserResizeRows="False">
+                      CanUserResizeColumns="False" CanUserResizeRows="False" IsReadOnly="True"
+                      RowBackground="#FFFFEBCD" AlternatingRowBackground="BlanchedAlmond">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Наименование" Binding="{Binding ItemName}" Width="1*"></DataGridTextColumn>
                         <DataGridTextColumn Header="Код товара" Binding="{Binding ItemCode}" Width="1*"></DataGridTextColumn>
                     </DataGrid.Columns>
 
-                    <DataGrid.Resources>
+                    <!--<DataGrid.Resources>
                         <ResourceDictionary>
                             <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
                                 <Setter Property="Background" Value="{x:Null}" />
@@ -93,7 +96,7 @@
                                 </Style.Triggers>
                             </Style>
                         </ResourceDictionary>
-                    </DataGrid.Resources>
+                    </DataGrid.Resources>-->
                 </DataGrid>
 
                 <Button Height="20" Width="20" VerticalAlignment="Top" HorizontalAlignment="Right"

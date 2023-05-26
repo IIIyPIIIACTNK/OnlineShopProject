@@ -4,12 +4,13 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OnlineShopProject"
+        xmlns:vm="clr-namespace:OnlineShopProject.MyViewModels"
         mc:Ignorable="d"
         Title="Test" Height="450" Width="800"
         Style="{StaticResource DefaultWindow}">
-    <Window.Resources>
-        
-    </Window.Resources>
+    <Window.DataContext>
+        <vm:ViewModel x:Name="ViewModel"/>
+    </Window.DataContext>
     <Grid>
         <!--WindowBar-->
         <Grid Height="20" VerticalAlignment="Top">

@@ -374,7 +374,7 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" 
+                    <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{StaticResource Custom.DarkBlue}" SnapsToDevicePixels="true" 
                                StrokeThickness="1"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -409,7 +409,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
-                        <Rectangle x:Name="Border" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" SnapsToDevicePixels="True"/>
+                        <Rectangle x:Name="Border" Fill="{StaticResource Custom.DarkBlue}" SnapsToDevicePixels="True"/>
                         <Polygon x:Name="Arrow" Fill="Black" HorizontalAlignment="Right" Margin="8,8,3,3" Opacity="0.15" Points="0,10 10,10 10,0" Stretch="Uniform" VerticalAlignment="Bottom"/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -432,10 +432,10 @@
         <Setter Property="RowBackground" Value="#FFF9F0"/>
         <Setter Property="Background" Value="#FFF8F0"/>
         <Setter Property="HeadersVisibility" Value="Column"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        <Setter Property="Foreground" Value="{StaticResource Custom.Black}"/>
         <Setter Property="BorderBrush" Value="#111D4A"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="GridLinesVisibility" Value="Vertical"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
         <Setter Property="HorizontalGridLinesBrush" Value="#111D4A"/>
         <Setter Property="RowDetailsVisibilityMode" Value="VisibleWhenSelected"/>
         <Setter Property="ScrollViewer.CanContentScroll" Value="False"/>

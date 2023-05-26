@@ -15,20 +15,21 @@ using System.Data;
 using OnlineShopProject.Models;
 using OnlineShopProject.MyViewModels;
 
-namespace OnlineShopProject
+namespace OnlineShopProject.MyViewModels
 {
-    class ViewModel : INotifyPropertyChanged
+    public class ViewModel : INotifyPropertyChanged
     {
         public OsClientsContext ShopDBContext { get; set; }
         public ViewModel()
         {
             ShopDBContext = new OsClientsContext();
             SIToView = new ObservableCollection<SoldItemViewModel>(SoldItemsToView());
+            cPToView = new ObservableCollection<ClientsPurchasesViewModel>(ClientPurchasesToView());
         }
 
-        #region Fields
-        
-        public event PropertyChangedEventHandler? PropertyChanged;
+    #region Fields
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
         RelayCommand? addClinet;
         RelayCommand? deleteClient;
@@ -78,32 +79,37 @@ namespace OnlineShopProject
             return result;
         }
 
-        //public List<ClientsPurchasesViewModel> CPToView { get { return ClientPurchasesToView(); } set { CPToView = value; OnPropertyChanged(); } }
 
-        //public ObservableCollection<ClientsPurchasesViewModel> cPToView;
-        public ObservableCollection<ClientsPurchasesViewModel> CPToView { get; set; }
-        public List<ClientsPurchasesViewModel> testtesttest = new List<ClientsPurchasesViewModel>() { new ClientsPurchasesViewModel() { ItemName = "test"} };
+        private ObservableCollection<ClientsPurchasesViewModel> cPToView;
+        public ObservableCollection<ClientsPurchasesViewModel> CPToView { get { return cPToView; } set { cPToView = value; OnPropertyChanged(); } }
         public List<ClientsPurchasesViewModel> ClientPurchasesToView()
         {
             var selectedClient = (Client)SelectedElement;
-            List<ClientsPurchasesViewModel> result;
-            var query = from si in ShopDBContext.SoldItems
-                        join c in ShopDBContext.Clients on si.CustomerEmail equals selectedClient.EMail into gj
-                        from sub in gj.DefaultIfEmpty()
-                        join i in ShopDBContext.Items on si.ItemId equals i.Id into gj2
-                        from sub2 in gj2.DefaultIfEmpty()
-                        select new
-                        {
-                            ItemName = sub2.Name,
-                            ItemCode = si.ItemCode,
-                        };
-            result = query.Select(x => new ClientsPurchasesViewModel()
-            {
-                ItemName= x.ItemName,
-                ItemCode = x.ItemCode,
-            }).ToList();
-            Debug.WriteLine($"------ {result.Count}");
+            List<ClientsPurchasesViewModel> result = new List<ClientsPurchasesViewModel>();
+            try {
+                var query = from si in ShopDBContext.SoldItems
+                             join i in ShopDBContext.Items on si.ItemId equals i.Id into gj
+                             from sub in gj.DefaultIfEmpty()
+                             where si.CustomerEmail.Equals(selectedClient.EMail)
+                             select new
+                             {
+                                 ItemName = sub.Name,
+                                 ItemCode = si.ItemCode
+                             };
 
+
+                Debug.WriteLine($"------ query count {query.Count()}");
+                result = query.Select(x => new ClientsPurchasesViewModel()
+                {
+                    ItemName = x.ItemName,
+                    ItemCode = x.ItemCode,
+                }).ToList();
+                Debug.WriteLine($"------ {result.Count}");
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"------- Ошибка при составлении LINQ запроса в ClientPurchaseToView {ex.Message} \n    InnerException: {ex.InnerException}");
+            }
             return result;
         }
 
@@ -281,6 +287,7 @@ namespace OnlineShopProject
                     try
                     {
                         CPToView = new ObservableCollection<ClientsPurchasesViewModel>(ClientPurchasesToView());
+
                         Debug.WriteLine($"------ CPToView.Count = {CPToView.Count}");
                     }
                     catch (Exception ex)
